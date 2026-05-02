@@ -1,0 +1,23 @@
+{
+  "players": [
+    { "name": "Cristiano Ronaldo", "clubs": ["sporting", "manchester united", "real madrid", "juventus"] },
+    { "name": "Ronaldo Nazario", "clubs": ["psv", "barcelona", "inter milan", "real madrid"] },
+    { "name": "Lionel Messi", "clubs": ["barcelona", "psg", "inter miami"] },
+    { "name": "Neymar", "clubs": ["santos", "barcelona", "psg"] },
+    { "name": "Zinedine Zidane", "clubs": ["bordeaux", "juventus", "real madrid"] },
+    { "name": "Kaka", "clubs": ["sao paulo", "milann", "real madrid"] },
+    { "name": "Andres Iniesta", "clubs": ["barcelona", "vissel kobe"] },
+    { "name": "Xavi", "clubs": ["barcelona", "al sadd"] },
+    { "name": "Thiago Silva", "clubs": ["fluminense", "ac milan", "psg", "chelsea"] },
+    { "name": "Luis Suarez", "clubs": ["ajax", "liverpool", "barcelona", "atmadrid"] }
+  ],
+  "users": [
+    { "username": "alice", "password": "password" },
+    { "username": "bob", "password": "password" },
+    { "username": "carol", "password": "password" }
+  ],
+  "exampleMatches": [
+    { "player1": "alice", "player2": "bob", "winner": "alice", "country": "spain", "createdAt": "2024-01-01T12:00:00Z" },
+    { "player1": "bob", "player2": "carol", "winner": "bob", "country": "brazil", "createdAt": "2024-01-02T12:00:00Z" }
+  ]
+}
