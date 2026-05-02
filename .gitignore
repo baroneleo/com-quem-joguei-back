@@ -1,0 +1,56 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Eclipse / STS
+.project
+.classpath
+.settings/
+.springBeans
+
+# IntelliJ
+*.iml
+.idea/
+.out/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# OS files
+Thumbs.db
+
+# Environment / secrets
+.env
+*.env
+
+# Docker
+docker-compose.override.yml
+
+# Generated jars
+*.jar
+
+# Test / reports
+surefire-reports/
+failsafe-reports/
+
+# Lombok-generated
+lombok.config
+
+# IDE metadata
+*.ipr
+*.iws
+
+# Misc
+node_modules/

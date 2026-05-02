@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: soccer-db
+    environment:
+      POSTGRES_DB: footballdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d footballdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - soccer-net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soccer-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/footballdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JWT_SECRET: verysecretkeychangeinprod
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - soccer-net
+
+  adminer:
+    image: adminer:latest
+    container_name: soccer-adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: pgsql
+    depends_on:
+      - db
+    networks:
+      - soccer-net
+
+volumes:
+  db-data:
+
+networks:
+  soccer-net:
+    driver: bridge
