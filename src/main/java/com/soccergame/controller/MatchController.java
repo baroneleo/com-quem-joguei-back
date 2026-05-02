@@ -1,4 +1,4 @@
-package main.java.com.soccergame.controller;
+package com.soccergame.controller;
 
 import com.soccergame.dto.game.MatchStartRequest;
 import com.soccergame.dto.game.MatchEndRequest;

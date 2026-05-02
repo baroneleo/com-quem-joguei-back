@@ -1,4 +1,4 @@
-package main.java.com.soccergame.exception;
+package com.soccergame.exception;
 
 import com.soccergame.dto.SimpleResponse;
 import jakarta.validation.ConstraintViolationException;

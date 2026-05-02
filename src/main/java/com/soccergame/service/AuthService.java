@@ -1,4 +1,4 @@
-package main.java.com.soccergame.service;
+package com.soccergame.service;
 
 import com.soccergame.dto.auth.AuthResponse;
 import com.soccergame.dto.auth.LoginRequest;

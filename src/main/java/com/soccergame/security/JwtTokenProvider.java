@@ -1,4 +1,4 @@
-package main.java.com.soccergame.security;
+package com.soccergame.security;
 
 import com.soccergame.config.JwtConfig;
 import io.jsonwebtoken.*;

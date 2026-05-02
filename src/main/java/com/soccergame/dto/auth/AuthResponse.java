@@ -1,4 +1,4 @@
-package main.java.com.soccergame.dto.auth;
+package com.soccergame.dto.auth;
 
 import java.io.Serializable;
 

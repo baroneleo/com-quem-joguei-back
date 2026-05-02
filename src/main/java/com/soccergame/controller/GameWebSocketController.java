@@ -1,11 +1,13 @@
-package main.java.com.soccergame.controller;
+package com.soccergame.controller;
 
 import com.soccergame.dto.game.GameEventDto;
 import com.soccergame.dto.game.GameAction;
 import com.soccergame.dto.game.RoomEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.handler.annotation.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -40,15 +42,14 @@ public class GameWebSocketController {
     }
 
     @MessageMapping("/create_room")
-    @SendToUser(destinations = "/queue/reply", broadcast = false)
-    public RoomCreatedResponse createRoom(@Payload RoomEvent event, @Header("simpSessionId") String sessionId) {
+    public void createRoom(@Payload RoomEvent event, @Header(name = "simpSessionId", required = false) String sessionId) {
         String id = UUID.randomUUID().toString();
         Room r = new Room(id, event.getHostUsername(), event.getCountry());
         r.join(event.getHostUsername());
         rooms.put(id, r);
         log.info("Room created id={} host={} country={}", id, event.getHostUsername(), event.getCountry());
-        // return immediate ack to the creator
-        return new RoomCreatedResponse(id);
+        // send immediate ack to the creating user (by username). If you prefer session-based, adapt accordingly.
+        template.convertAndSendToUser(event.getHostUsername(), "/queue/reply", new RoomCreatedResponse(id));
     }
 
     @MessageMapping("/join_room")
@@ -96,12 +97,12 @@ public class GameWebSocketController {
         }
         // simple validation: non-empty, not repeated
         String answer = Optional.ofNullable(action.getAnswer()).orElse("").trim();
-        if (answer.isEmpty() || r.usedNames.contains(answer.toLowerCase())) {
+        if (answer.isEmpty() || r.isNameUsed(answer)) {
             template.convertAndSendToUser(action.getUsername(), "/queue/reply", new GameEventDto("invalid_move", "Invalid or repeated name"));
             return;
         }
         // Mock validation of "played in same club" - here accept everything
-        r.usedNames.add(answer.toLowerCase());
+        r.recordUsedName(answer);
         r.incrementScore(action.getUsername());
         sendToRoom(r.id, new GameEventDto("player_scored", Map.of("player", action.getUsername(), "score", r.getScore(action.getUsername()))));
 
@@ -110,6 +111,7 @@ public class GameWebSocketController {
             sendToRoom(r.id, new GameEventDto("game_over", r.winnerSummary()));
             // optionally persist match result via MatchService (not wired here)
             rooms.remove(r.id);
+            r.cancelTimeout();
             return;
         }
 
@@ -132,6 +134,7 @@ public class GameWebSocketController {
             if (r.hasWinner()) {
                 sendToRoom(r.id, new GameEventDto("game_over", r.winnerSummary()));
                 rooms.remove(r.id);
+                r.cancelTimeout();
             } else {
                 sendToRoom(r.id, new GameEventDto("player_turn", r.state()));
                 scheduleTurnTimeout(r); // schedule next
@@ -181,18 +184,23 @@ public class GameWebSocketController {
             this.startedAt = Instant.now();
             players.forEach(p -> scores.putIfAbsent(p, 0));
             turnIndex = 0;
+            usedNames.clear();
         }
 
         boolean isPlayerTurn(String username) {
-            return players.get(turnIndex).equals(username);
+            if (players.isEmpty()) return false;
+            int idx = Math.floorMod(turnIndex, players.size());
+            return players.get(idx).equals(username);
         }
 
         String currentPlayer() {
-            return players.get(turnIndex);
+            if (players.isEmpty()) return null;
+            int idx = Math.floorMod(turnIndex, players.size());
+            return players.get(idx);
         }
 
         void nextTurn() {
-            turnIndex = (turnIndex + 1) % players.size();
+            turnIndex = (turnIndex + 1) % Math.max(1, players.size());
         }
 
         void incrementScore(String username) {
@@ -213,11 +221,23 @@ public class GameWebSocketController {
         }
 
         Map<String, Object> state() {
-            return Map.of("players", List.copyOf(players), "scores", Map.copyOf(scores), "current", currentPlayer());
+            return Map.of(
+                    "id", id,
+                    "country", country,
+                    "players", List.copyOf(players),
+                    "scores", Map.copyOf(scores),
+                    "current", currentPlayer(),
+                    "startedAt", startedAt
+            );
         }
 
         Map<String, Object> summary() {
-            return Map.of("id", id, "players", List.copyOf(players), "country", country);
+            return Map.of(
+                    "id", id,
+                    "players", List.copyOf(players),
+                    "country", country,
+                    "startedAt", startedAt
+            );
         }
 
         void setTimeoutFuture(ScheduledFuture<?> f) {
@@ -228,6 +248,19 @@ public class GameWebSocketController {
         void cancelTimeout() {
             if (this.timeoutFuture != null && !this.timeoutFuture.isDone()) this.timeoutFuture.cancel(true);
             this.timeoutFuture = null;
+        }
+
+        void recordUsedName(String name) {
+            if (name != null) usedNames.add(normalize(name));
+        }
+
+        boolean isNameUsed(String name) {
+            if (name == null) return false;
+            return usedNames.contains(normalize(name));
+        }
+
+        private String normalize(String s) {
+            return s == null ? null : s.trim().toLowerCase();
         }
     }
 }

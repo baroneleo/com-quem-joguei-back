@@ -1,4 +1,4 @@
-package main.java.com.soccergame.dto.ranking;
+package com.soccergame.dto.ranking;
 
 import java.io.Serializable;
 

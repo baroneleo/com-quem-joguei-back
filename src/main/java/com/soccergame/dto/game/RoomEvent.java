@@ -1,4 +1,4 @@
-package main.java.com.soccergame.dto.game;
+package com.soccergame.dto.game;
 
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;

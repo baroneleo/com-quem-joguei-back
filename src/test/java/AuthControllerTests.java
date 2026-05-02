@@ -1,5 +1,3 @@
-package test.java;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soccergame.dto.auth.LoginRequest;
 import com.soccergame.dto.auth.RegisterRequest;

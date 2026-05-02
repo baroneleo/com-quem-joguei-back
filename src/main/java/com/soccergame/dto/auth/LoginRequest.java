@@ -1,4 +1,4 @@
-package main.java.com.soccergame.dto.auth;
+package com.soccergame.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;

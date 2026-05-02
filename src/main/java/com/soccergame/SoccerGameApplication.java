@@ -1,4 +1,4 @@
-package main.java.com.soccergame;
+package com.soccergame;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

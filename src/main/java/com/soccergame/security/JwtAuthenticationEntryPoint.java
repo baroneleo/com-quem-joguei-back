@@ -1,4 +1,4 @@
-package main.java.com.soccergame.security;
+package com.soccergame.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

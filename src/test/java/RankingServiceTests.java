@@ -1,5 +1,3 @@
-package test.java;
-
 import com.soccergame.dto.ranking.RankingDto;
 import com.soccergame.entity.Stats;
 import com.soccergame.entity.User;

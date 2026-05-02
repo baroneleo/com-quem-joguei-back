@@ -1,4 +1,4 @@
-package main.java.com.soccergame.config;
+package com.soccergame.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

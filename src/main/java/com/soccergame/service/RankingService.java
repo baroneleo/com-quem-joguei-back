@@ -1,4 +1,4 @@
-package main.java.com.soccergame.service;
+package com.soccergame.service;
 
 import com.soccergame.dto.ranking.RankingDto;
 import com.soccergame.entity.CountryStats;

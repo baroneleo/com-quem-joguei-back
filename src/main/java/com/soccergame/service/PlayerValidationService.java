@@ -1,4 +1,4 @@
-package main.java.com.soccergame.service;
+package com.soccergame.service;
 
 import com.soccergame.exception.BadRequestException;
 import org.springframework.stereotype.Service;

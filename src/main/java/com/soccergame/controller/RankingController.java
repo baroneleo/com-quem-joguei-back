@@ -1,4 +1,4 @@
-package main.java.com.soccergame.controller;
+package com.soccergame.controller;
 
 import com.soccergame.dto.ranking.RankingDto;
 import com.soccergame.service.RankingService;

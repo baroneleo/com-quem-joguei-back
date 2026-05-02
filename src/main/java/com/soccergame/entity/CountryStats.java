@@ -1,4 +1,4 @@
-package main.java.com.soccergame.entity;
+package com.soccergame.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package main.java.com.soccergame.service;
+package com.soccergame.service;
 
 import com.soccergame.dto.game.MatchEndRequest;
 import com.soccergame.dto.game.MatchResponse;

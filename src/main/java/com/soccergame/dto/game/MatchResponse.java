@@ -1,4 +1,4 @@
-package main.java.com.soccergame.dto.game;
+package com.soccergame.dto.game;
 
 import java.io.Serializable;
 import java.time.Instant;

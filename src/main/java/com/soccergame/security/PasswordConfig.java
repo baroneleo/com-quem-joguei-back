@@ -1,4 +1,4 @@
-package main.java.com.soccergame.security;
+package com.soccergame.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package main.java.com.soccergame.config;
+package com.soccergame.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

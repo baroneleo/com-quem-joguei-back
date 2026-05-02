@@ -1,4 +1,4 @@
-package main.java.com.soccergame.websocket;
+package com.soccergame.websocket;
 
 import java.time.Instant;
 import java.util.List;
