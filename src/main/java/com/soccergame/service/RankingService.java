@@ -6,6 +6,7 @@ import com.soccergame.entity.Stats;
 import com.soccergame.repository.CountryStatsRepository;
 import com.soccergame.repository.StatsRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
  * Score = wins * 3 - losses
  */
 @Service
+@Transactional(readOnly = true)
 public class RankingService {
 
     private final StatsRepository statsRepository;

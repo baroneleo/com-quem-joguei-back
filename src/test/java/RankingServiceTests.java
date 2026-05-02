@@ -1,10 +1,11 @@
+import com.soccergame.SoccerGameApplication;
 import com.soccergame.dto.ranking.RankingDto;
 import com.soccergame.entity.Stats;
 import com.soccergame.entity.User;
 import com.soccergame.repository.StatsRepository;
 import com.soccergame.repository.UserRepository;
 import com.soccergame.service.RankingService;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Testes básicos do RankingService.
  */
-@SpringBootTest
+@SpringBootTest(classes = SoccerGameApplication.class)
 public class RankingServiceTests {
 
     @Autowired
@@ -28,7 +29,7 @@ public class RankingServiceTests {
     @Autowired
     private StatsRepository statsRepository;
 
-    @AfterEach
+    @BeforeEach
     void cleanup() {
         statsRepository.deleteAll();
         userRepository.deleteAll();

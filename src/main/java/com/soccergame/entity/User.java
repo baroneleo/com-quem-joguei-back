@@ -1,11 +1,6 @@
 package com.soccergame.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.Instant;
 import java.io.Serializable;
 
@@ -17,10 +12,6 @@ import java.io.Serializable;
 @Table(name = "users", indexes = {
         @Index(name = "idx_users_username", columnList = "username")
 })
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class User implements Serializable {
 
     @Id
@@ -33,6 +24,56 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt = Instant.now();
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
+    public User() {}
+
+    public User(Long id, String username, String password, Instant createdAt) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = Instant.now();
+        }
+    }
+
+    // getters/setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
 }

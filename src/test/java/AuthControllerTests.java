@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soccergame.dto.auth.LoginRequest;
 import com.soccergame.dto.auth.RegisterRequest;
+import com.soccergame.SoccerGameApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Testes básicos para autenticação: registro e login.
  */
-@SpringBootTest
+@SpringBootTest(classes = SoccerGameApplication.class)
 @AutoConfigureMockMvc
 public class AuthControllerTests {
 

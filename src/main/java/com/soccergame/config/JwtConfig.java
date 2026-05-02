@@ -3,29 +3,22 @@ package com.soccergame.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * Configura beans de configuração de segurança compartilhados.
- * - PasswordEncoder: usado em AuthService e em testes.
+ * Configura beans de configuração JWT compartilhados.
  * - JwtProperties: wrapper para propriedades JWT que sua JwtTokenProvider pode consumir.
  *
- * Se sua JwtTokenProvider já lê diretamente as propriedades via @Value, você pode remover JwtProperties.
+ * O PasswordEncoder fica em com.soccergame.security.PasswordConfig.
  */
 @Configuration
 public class JwtConfig {
 
-    @Value("${jwt.secret:verysecretkeychangeinprod}")
+    @Value("${jwt.secret:verysecretkeychangeinprod-32-bytes-minimum-1234}")
     private String jwtSecret;
 
     @Value("${jwt.expirationMs:86400000}")
     private long jwtExpirationMs;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    
 
     @Bean
     public JwtProperties jwtProperties() {
